@@ -22,11 +22,14 @@ public class AdsManager : MonoBehaviour,IUnityAdsListener
 
     void Start()
     {
-        Advertisement.Load("Pause_Banner");
-        Advertisement.Load("GameOver_Banner");
         if (SceneManager.GetActiveScene().name == "Main Menu")
         {
             ShowAds("MainMenu_Banner");
+        }
+        else
+        {
+            Advertisement.Load("Pause_Banner");
+            Advertisement.Load("GameOver_Banner");
         }
     }
 
@@ -79,7 +82,6 @@ public class AdsManager : MonoBehaviour,IUnityAdsListener
     {
         if (placementId=="rewardedVideo" && showResult==ShowResult.Finished)
         {
-            Debug.Log("1");
             GameManager.Instance.IncreaseCoins();
         }
     }
