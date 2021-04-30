@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
 
     void MovePlayer()
     {
-        _xInput = Input.GetAxis("Horizontal");
+        _xInput = Input.acceleration.x;
         _newPos = transform.position;
         _newPos.x = Mathf.Clamp(_newPos.x + (_xInput * speed), -xLim, xLim);
         _rb.MovePosition(_newPos);
