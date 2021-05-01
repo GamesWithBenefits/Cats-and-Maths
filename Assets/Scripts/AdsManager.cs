@@ -1,93 +1,92 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Advertisements;
+using GoogleMobileAds.Api;
 using UnityEngine.SceneManagement;
-using ShowResult = UnityEngine.Advertisements.ShowResult;
 
-public class AdsManager : MonoBehaviour,IUnityAdsListener
+
+public class AdsManager : MonoBehaviour
 {
+    private BannerView _bannerView;
+    private List<BannerView> _banners = new List<BannerView>();
+    private RewardedAd _rewardedAd;
+    
     public static AdsManager Instance;
-    private string GameID = "4105625";
-    private bool testMode = false;
 
     private void Awake()
     {
-        Advertisement.Initialize(GameID, testMode);
-        Advertisement.AddListener(this);
         if (Instance == null)
         {
             Instance = this;
         }
+        MobileAds.Initialize(initStatus => { });
     }
 
-    void Start()
+    public void Start()
     {
+#if UNITY_ANDROID
+        string[] adUnitId =
+        {
+            "ca-app-pub-4174137669541969/8894010796",
+            "ca-app-pub-4174137669541969/7805765180",
+            "ca-app-pub-4174137669541969/4218067488",
+            "ca-app-pub-4174137669541969/6237532646",
+            "ca-app-pub-4174137669541969/1380151157",
+            "ca-app-pub-4174137669541969/1058741041"
+        };
+        string rewardAdId = "ca-app-pub-4174137669541969/7905837535";
+#else
+        _adUnitId = "unexpected_platform";
+#endif
+        
         if (SceneManager.GetActiveScene().name == "Main Menu")
         {
-            ShowAds("MainMenu_Banner");
+            _banners.Add(RequestBanner(adUnitId[0], AdPosition.Bottom));
         }
         else
         {
-            Advertisement.Load("Pause_Banner");
-            Advertisement.Load("GameOver_Banner");
+            _banners.Add(RequestBanner(adUnitId[2], AdPosition.TopRight));
+            _banners.Add(RequestBanner(adUnitId[3], AdPosition.BottomLeft));
+            _banners.Add(RequestBanner(adUnitId[4], AdPosition.Bottom));
+            _banners.Add(RequestBanner(adUnitId[5], AdPosition.BottomRight));
+            _rewardedAd = new RewardedAd(rewardAdId);
         }
     }
 
-    public void ShowAds(string adID)
+    private BannerView RequestBanner(string adUnitId, AdPosition position)
     {
-        StartCoroutine(AdEnum(adID));
+        BannerView bannerView = new BannerView(adUnitId, AdSize.Banner, position);
+        AdRequest adRequest = new AdRequest.Builder().Build();
+        bannerView.LoadAd(adRequest);
+        return bannerView;
     }
 
-    IEnumerator AdEnum(string adID)
+    public void HideAds(int i)
     {
-        while (!Advertisement.IsReady(adID))
+        for (int j = 2*i; j < 2*i+2; j++)
         {
-            yield return new WaitForSeconds(0.5f);
+            _banners[j].Hide();
         }
-        Advertisement.Banner.SetPosition(BannerPosition.BOTTOM_CENTER);
-        Advertisement.Banner.Show(adID);
+    }
+    
+    public void ShowAds(int i)
+    {
+        for (int j = 2*i; j < 2*i+2; j++)
+        {
+            _banners[j].Show();
+        }
     }
 
-    public void HideAds()
+    public void Cleanup()
     {
-        Advertisement.Banner.Hide();
+        for (int j = 0; j < 6; j++)
+        {
+            _banners[j].Destroy();
+        }
     }
 
     public void RewardedVideo()
     {
-        StartCoroutine(RewardEnum());
-    }
-
-    IEnumerator RewardEnum()
-    {
-        while (!Advertisement.IsReady("rewardedVideo"))
-        {
-            yield return new WaitForSeconds(0.25f);
-        }
-        Advertisement.Show("rewardedVideo");
-    }
-
-    public void OnUnityAdsReady(string placementId)
-    {
-        // Advertisement.Banner.SetPosition(BannerPosition.BOTTOM_CENTER);
-        // Advertisement.Banner.Show(placementId);
-    }
-
-    public void OnUnityAdsDidError(string message)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void OnUnityAdsDidFinish(string placementId, ShowResult showResult)
-    {
-        if (placementId=="rewardedVideo" && showResult==ShowResult.Finished)
-        {
-            GameManager.Instance.IncreaseCoins();
-        }
-    }
-
-    public void OnUnityAdsDidStart(string placementId)
-    {
-        // throw new System.NotImplementedException();
+        AdRequest adRequest = new AdRequest.Builder().Build();
+        _rewardedAd.LoadAd(adRequest);
     }
 }
