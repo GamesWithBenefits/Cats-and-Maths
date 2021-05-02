@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using GoogleMobileAds.Api;
 using UnityEngine.SceneManagement;
 
@@ -7,9 +6,9 @@ using UnityEngine.SceneManagement;
 public class AdsManager : MonoBehaviour
 {
     private BannerView _bannerView;
-    private List<BannerView> _banners = new List<BannerView>();
+    private BannerView _banner1, _banner2, _banner3, _banner4;
     private RewardedAd _rewardedAd;
-    
+    private string[] _adUnitId;
     public static AdsManager Instance;
 
     private void Awake()
@@ -27,7 +26,7 @@ public class AdsManager : MonoBehaviour
         string[] adUnitId =
         {
             "ca-app-pub-4174137669541969/8894010796",
-            "ca-app-pub-4174137669541969/7805765180",
+            "ca-app-pub-4174137669541969/1634236363",
             "ca-app-pub-4174137669541969/4218067488",
             "ca-app-pub-4174137669541969/6237532646",
             "ca-app-pub-4174137669541969/1380151157",
@@ -37,56 +36,78 @@ public class AdsManager : MonoBehaviour
 #else
         _adUnitId = "unexpected_platform";
 #endif
-        
+        _adUnitId = adUnitId;
         if (SceneManager.GetActiveScene().name == "Main Menu")
         {
-            _banners.Add(RequestBanner(adUnitId[0], AdPosition.Bottom));
+            _banner1 = new BannerView(adUnitId[0], AdSize.Banner, AdPosition.Top);
+            _banner2 = new BannerView(adUnitId[1], AdSize.Banner, AdPosition.Bottom);
         }
         else
         {
-            _banners.Add(RequestBanner(adUnitId[2], AdPosition.TopRight));
-            _banners.Add(RequestBanner(adUnitId[3], AdPosition.BottomLeft));
-            _banners.Add(RequestBanner(adUnitId[4], AdPosition.Bottom));
-            _banners.Add(RequestBanner(adUnitId[5], AdPosition.BottomRight));
             _rewardedAd = new RewardedAd(rewardAdId);
         }
     }
 
-    private BannerView RequestBanner(string adUnitId, AdPosition position)
+    private BannerView RequestBanner(string adUnit, AdPosition position)
     {
-        BannerView bannerView = new BannerView(adUnitId, AdSize.Banner, position);
-        AdRequest adRequest = new AdRequest.Builder().Build();
-        bannerView.LoadAd(adRequest);
-        return bannerView;
+        BannerView banner = new BannerView(adUnit, AdSize.Banner, position);
+        banner.LoadAd(new AdRequest.Builder().Build());
+        return banner;
     }
 
     public void HideAds(int i)
     {
-        for (int j = 2*i; j < 2*i+2; j++)
+        switch (i)
         {
-            _banners[j].Hide();
+            case 0: _banner1.Hide();
+                _banner1.Destroy();
+                break;
+            case 1: _banner2.Hide();
+                _banner2.Destroy();
+                break;
+            case 2: _banner3.Hide();
+                _banner3.Destroy();
+                break;
+            case 3: _banner4.Hide();
+                _banner4.Destroy();
+                break;
         }
     }
     
     public void ShowAds(int i)
     {
-        for (int j = 2*i; j < 2*i+2; j++)
+        switch (i)
         {
-            _banners[j].Show();
+            case 0: _banner1 = RequestBanner(_adUnitId[0], AdPosition.Top);
+                break;
+            case 1: _banner2 = RequestBanner(_adUnitId[1], AdPosition.Bottom);
+                break;
+            case 2: _banner3 = RequestBanner(_adUnitId[2], AdPosition.Top);
+                break;
+            case 3: _banner4 = RequestBanner(_adUnitId[3], AdPosition.Bottom);
+                break;
         }
     }
 
-    public void Cleanup()
+    void OnDestroy()
     {
-        for (int j = 0; j < 6; j++)
-        {
-            _banners[j].Destroy();
-        }
+        _banner1?.Destroy();
+        _banner2?.Destroy();
+        _banner3?.Destroy();
+        _banner4?.Destroy();
     }
 
     public void RewardedVideo()
     {
         AdRequest adRequest = new AdRequest.Builder().Build();
         _rewardedAd.LoadAd(adRequest);
+        _rewardedAd.OnUserEarnedReward += HandleUserEarnedReward;
+        _rewardedAd.Show();
     }
+    
+    private void HandleUserEarnedReward(object sender, Reward args)
+    {
+        GameManager.Instance.IncreaseCoins();
+    }
+
 }

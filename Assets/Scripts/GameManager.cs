@@ -31,7 +31,8 @@ public class GameManager : MonoBehaviour
     
     public void GameOver()
     {
-        AdsManager.Instance.ShowAds(1);
+        AdsManager.Instance.ShowAds(2);
+        AdsManager.Instance.ShowAds(3);
         IncreaseCoins();
         _gameOver = true;
         gameOverPanel.SetActive(true);
