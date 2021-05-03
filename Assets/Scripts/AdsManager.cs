@@ -25,12 +25,12 @@ public class AdsManager : MonoBehaviour
 #if UNITY_ANDROID
         string[] adUnitId =
         {
-            "ca-app-pub-4174137669541969/8894010796",
-            "ca-app-pub-4174137669541969/1634236363",
-            "ca-app-pub-4174137669541969/4218067488",
-            "ca-app-pub-4174137669541969/6237532646",
-            "ca-app-pub-4174137669541969/1380151157",
-            "ca-app-pub-4174137669541969/1058741041"
+            "ca-app-pub-3940256099942544/6300978111",
+            "ca-app-pub-3940256099942544/6300978111",
+            "ca-app-pub-3940256099942544/6300978111",
+            "ca-app-pub-3940256099942544/6300978111",
+            "ca-app-pub-3940256099942544/6300978111",
+            "ca-app-pub-3940256099942544/6300978111"
         };
         string rewardAdId = "ca-app-pub-4174137669541969/7905837535";
 #else
@@ -39,8 +39,7 @@ public class AdsManager : MonoBehaviour
         _adUnitId = adUnitId;
         if (SceneManager.GetActiveScene().name == "Main Menu")
         {
-            _banner1 = new BannerView(adUnitId[0], AdSize.Banner, AdPosition.Top);
-            _banner2 = new BannerView(adUnitId[1], AdSize.Banner, AdPosition.Bottom);
+            ShowAds(1);
         }
         else
         {
