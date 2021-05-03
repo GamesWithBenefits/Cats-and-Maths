@@ -31,14 +31,14 @@ public class GameManager : MonoBehaviour
     
     public void GameOver()
     {
-        AdsManager.Instance.ShowAds(2);
-        AdsManager.Instance.ShowAds(3);
         IncreaseCoins();
         _gameOver = true;
         gameOverPanel.SetActive(true);
         gameOverPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = _score.ToString();
         gameOverPanel.transform.GetChild(0).GetChild(1).GetChild(1).GetComponent<Text>().text = _coins.ToString();
         Destroy(spawner);
+        AdsManager.Instance.ShowAds(2);
+        AdsManager.Instance.ShowAds(3);
     }
 
     public void IncreaseCoins()
