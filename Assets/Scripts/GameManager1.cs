@@ -9,6 +9,7 @@ public class GameManager1 : MonoBehaviour
     private void Start()
     {
         coinNum.text = PlayerPrefs.GetInt("coins").ToString();
+        PlayerPrefs.SetInt("Sound", 1);
     }
 
     public void Play()
