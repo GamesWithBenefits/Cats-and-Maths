@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public List<GameObject> enemies;
     public SoundManager soundManager;
         
-    private bool _gameOver;
+    private bool _gameOver, _paused;
     private int _score, _coins;
     private Enemy _temp;
     private EnemySpawn _enemy;
@@ -37,8 +37,8 @@ public class GameManager : MonoBehaviour
         gameOverPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = _score.ToString();
         gameOverPanel.transform.GetChild(0).GetChild(1).GetChild(1).GetComponent<Text>().text = _coins.ToString();
         Destroy(spawner);
-        AdsManager.Instance.ShowAds(2);
-        AdsManager.Instance.ShowAds(3);
+        AdsManager.Instance.ShowAds(4);
+        AdsManager.Instance.ShowAds(5);
     }
 
     public void IncreaseCoins()
@@ -128,17 +128,17 @@ public class GameManager : MonoBehaviour
 
     public async void Pause()
     {
-        Time.timeScale = 1 - Time.timeScale;
-        if (!pausePanel.activeSelf)
-        {
-            pausePanel.transform.GetChild(0).GetComponent<Text>().text = _score.ToString();
-            pausePanel.SetActive(true);
-        }
-        else
-        {
-            pausePanel.GetComponent<Animator>().SetBool(-2085996487, true);
-            await Task.Delay(500);
-            pausePanel.SetActive(false);
-        }
+        pausePanel.transform.GetChild(0).GetComponent<Text>().text = _score.ToString();
+        pausePanel.SetActive(true);
+        await Task.Delay(100);
+        Time.timeScale = 0;
+    }
+
+    public async void Resume()
+    {
+        Time.timeScale = 1;
+        pausePanel.GetComponent<Animator>().SetBool(-2085996487, true);
+        await Task.Delay(500);
+        pausePanel.SetActive(false);
     }
 }

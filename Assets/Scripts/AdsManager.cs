@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using GoogleMobileAds.Api;
 using UnityEngine.SceneManagement;
 
@@ -8,6 +9,7 @@ public class AdsManager : MonoBehaviour
     private BannerView _bannerView;
     private BannerView _banner1, _banner2, _banner3, _banner4;
     private RewardedAd _rewardedAd;
+    private InterstitialAd _interstitial;
     private string[] _adUnitId;
     public static AdsManager Instance;
 
@@ -32,7 +34,8 @@ public class AdsManager : MonoBehaviour
             "ca-app-pub-3940256099942544/6300978111",
             "ca-app-pub-3940256099942544/6300978111"
         };
-        string rewardAdId = "ca-app-pub-4174137669541969/7905837535";
+        string rewardAdId = "ca-app-pub-3940256099942544/5224354917";
+        string interstitialAdId = "ca-app-pub-3940256099942544/1033173712";
 #else
         _adUnitId = "unexpected_platform";
 #endif
@@ -44,6 +47,13 @@ public class AdsManager : MonoBehaviour
         else
         {
             _rewardedAd = new RewardedAd(rewardAdId);
+            _rewardedAd.OnUserEarnedReward += VidHandleUserEarnedReward;
+            _rewardedAd.OnAdLoaded += VidHandleLoaded;
+
+            _interstitial = new InterstitialAd(interstitialAdId);
+            _interstitial.OnAdClosed += InterstitialHandleOnAdClosed;
+            _interstitial.OnAdLoaded += InterstitialHandleOnAdLoaded;
+            _interstitial.OnAdFailedToLoad += InterstitialHandleOnAdClosed;
         }
     }
 
@@ -81,9 +91,13 @@ public class AdsManager : MonoBehaviour
                 break;
             case 1: _banner2 = RequestBanner(_adUnitId[1], AdPosition.Bottom);
                 break;
-            case 2: _banner3 = RequestBanner(_adUnitId[2], AdPosition.Top);
+            case 2: _banner1 = RequestBanner(_adUnitId[2], AdPosition.Top);
                 break;
-            case 3: _banner4 = RequestBanner(_adUnitId[3], AdPosition.Bottom);
+            case 3: _banner2 = RequestBanner(_adUnitId[3], AdPosition.Bottom);
+                break;
+            case 4: _banner3 = RequestBanner(_adUnitId[4], AdPosition.Top);
+                break;
+            case 5: _banner4 = RequestBanner(_adUnitId[5], AdPosition.Bottom);
                 break;
         }
     }
@@ -94,19 +108,35 @@ public class AdsManager : MonoBehaviour
         _banner2?.Destroy();
         _banner3?.Destroy();
         _banner4?.Destroy();
+        _interstitial?.Destroy();
     }
 
-    public void RewardedVideo()
+    public void RewardedAd()
     {
-        AdRequest adRequest = new AdRequest.Builder().Build();
-        _rewardedAd.LoadAd(adRequest);
-        _rewardedAd.OnUserEarnedReward += HandleUserEarnedReward;
-        _rewardedAd.Show();
+        _rewardedAd.LoadAd(new AdRequest.Builder().Build());
     }
-    
-    private void HandleUserEarnedReward(object sender, Reward args)
+    private void VidHandleUserEarnedReward(object sender, Reward args)
     {
         GameManager.Instance.IncreaseCoins();
     }
+    private void VidHandleLoaded(object sender, EventArgs args)
+    {
+        _rewardedAd.Show();
+    }
+    
+    public void InterstitialAd()
+    {
+        _interstitial.LoadAd(new AdRequest.Builder().Build());
+    }
+    private void InterstitialHandleOnAdLoaded(object sender, EventArgs args)
+    {
+        _interstitial.Show();
+    }
 
+    private void InterstitialHandleOnAdClosed(object sender, EventArgs args)
+    {
+        ShowAds(2);
+        ShowAds(3);
+        GameManager.Instance.Pause();
+    }
 }
