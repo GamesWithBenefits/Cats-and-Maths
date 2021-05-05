@@ -17,6 +17,11 @@ public class AdsManager : MonoBehaviour
         {
             Instance = this;
         }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
         MobileAds.Initialize(initStatus => { });
     }
 
