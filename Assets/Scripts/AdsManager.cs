@@ -48,11 +48,11 @@ public class AdsManager : MonoBehaviour
         {
             _rewardedAd = new RewardedAd(rewardAdId);
             _rewardedAd.OnUserEarnedReward += VidHandleUserEarnedReward;
-            _rewardedAd.OnAdLoaded += VidHandleLoaded;
+            _rewardedAd.OnAdLoaded += (o, args) => { _rewardedAd.Show();};
 
             _interstitial = new InterstitialAd(interstitialAdId);
             _interstitial.OnAdClosed += InterstitialHandleOnAdClosed;
-            _interstitial.OnAdLoaded += InterstitialHandleOnAdLoaded;
+            _interstitial.OnAdLoaded += (o, args) => { _interstitial.Show();};
             _interstitial.OnAdFailedToLoad += InterstitialHandleOnAdClosed;
         }
     }
@@ -82,22 +82,34 @@ public class AdsManager : MonoBehaviour
                 break;
         }
     }
-    
+
     public void ShowAds(int i)
     {
         switch (i)
         {
-            case 0: _banner1 = RequestBanner(_adUnitId[0], AdPosition.Top);
+            case 0:
+                _banner1 = RequestBanner(_adUnitId[0], AdPosition.Top);
+                _banner1.OnAdLoaded += (o, args) => { _banner1.Show();};
                 break;
-            case 1: _banner2 = RequestBanner(_adUnitId[1], AdPosition.Bottom);
+            case 1:
+                _banner2 = RequestBanner(_adUnitId[1], AdPosition.Bottom);
+                _banner1.OnAdLoaded += (o, args) => { _banner1.Show();};
                 break;
-            case 2: _banner1 = RequestBanner(_adUnitId[2], AdPosition.Top);
+            case 2:
+                _banner1 = RequestBanner(_adUnitId[2], AdPosition.Top);
+                _banner1.OnAdLoaded += (o, args) => { _banner1.Show();};
                 break;
-            case 3: _banner2 = RequestBanner(_adUnitId[3], AdPosition.Bottom);
+            case 3:
+                _banner2 = RequestBanner(_adUnitId[3], AdPosition.Bottom);
+                _banner1.OnAdLoaded += (o, args) => { _banner1.Show();};
                 break;
-            case 4: _banner3 = RequestBanner(_adUnitId[4], AdPosition.Top);
+            case 4:
+                _banner3 = RequestBanner(_adUnitId[4], AdPosition.Top);
+                _banner1.OnAdLoaded += (o, args) => { _banner1.Show();};
                 break;
-            case 5: _banner4 = RequestBanner(_adUnitId[5], AdPosition.Bottom);
+            case 5:
+                _banner4 = RequestBanner(_adUnitId[5], AdPosition.Bottom);
+                _banner1.OnAdLoaded += (o, args) => { _banner1.Show();};
                 break;
         }
     }
@@ -119,18 +131,10 @@ public class AdsManager : MonoBehaviour
     {
         GameManager.Instance.IncreaseCoins();
     }
-    private void VidHandleLoaded(object sender, EventArgs args)
-    {
-        _rewardedAd.Show();
-    }
-    
+
     public void InterstitialAd()
     {
         _interstitial.LoadAd(new AdRequest.Builder().Build());
-    }
-    private void InterstitialHandleOnAdLoaded(object sender, EventArgs args)
-    {
-        _interstitial.Show();
     }
 
     private void InterstitialHandleOnAdClosed(object sender, EventArgs args)
