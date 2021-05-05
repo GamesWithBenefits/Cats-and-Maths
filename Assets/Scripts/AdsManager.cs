@@ -91,7 +91,7 @@ public class AdsManager : MonoBehaviour
                 break;
             case 1:
                 _banner2 = RequestBanner(_adUnitId[1], AdPosition.Bottom);
-                _banner1.OnAdLoaded += (o, args) => { _banner1.Show();};
+                _banner2.OnAdLoaded += (o, args) => { _banner1.Show();};
                 break;
             case 2:
                 _banner1 = RequestBanner(_adUnitId[2], AdPosition.Top);
@@ -99,15 +99,15 @@ public class AdsManager : MonoBehaviour
                 break;
             case 3:
                 _banner2 = RequestBanner(_adUnitId[3], AdPosition.Bottom);
-                _banner1.OnAdLoaded += (o, args) => { _banner1.Show();};
+                _banner2.OnAdLoaded += (o, args) => { _banner1.Show();};
                 break;
             case 4:
                 _banner3 = RequestBanner(_adUnitId[4], AdPosition.Top);
-                _banner1.OnAdLoaded += (o, args) => { _banner1.Show();};
+                _banner3.OnAdLoaded += (o, args) => { _banner1.Show();};
                 break;
             case 5:
                 _banner4 = RequestBanner(_adUnitId[5], AdPosition.Bottom);
-                _banner1.OnAdLoaded += (o, args) => { _banner1.Show();};
+                _banner4.OnAdLoaded += (o, args) => { _banner1.Show();};
                 break;
         }
     }
