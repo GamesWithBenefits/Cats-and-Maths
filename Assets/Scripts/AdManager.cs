@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using GoogleMobileAds.Api;
+﻿using GoogleMobileAds.Api;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 
 public class AdManager : MonoBehaviour
@@ -25,6 +23,11 @@ public class AdManager : MonoBehaviour
     private void Start()
     {
         _bannerView = new BannerView("ca-app-pub-4174137669541969/8894010796", AdSize.Banner, AdPosition.Bottom);
+        RequestBanner();
+    }
+
+    private void RequestBanner()
+    {
         AdRequest request = new AdRequest.Builder().Build();
         _bannerView.LoadAd(request);
         _bannerView.Show();
