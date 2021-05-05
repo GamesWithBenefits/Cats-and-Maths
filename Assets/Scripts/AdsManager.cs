@@ -3,13 +3,11 @@ using UnityEngine;
 using GoogleMobileAds.Api;
 using UnityEngine.SceneManagement;
 
-
 public class AdsManager : MonoBehaviour
 {
-    private BannerView _bannerView;
-    private BannerView _banner1, _banner2, _banner3, _banner4;
-    private RewardedAd _rewardedAd;
-    private InterstitialAd _interstitial;
+    private BannerView _banner1 = null, _banner2 = null, _banner3 = null, _banner4 = null;
+    private RewardedAd _rewardedAd = null;
+    private InterstitialAd _interstitial = null;
     private string[] _adUnitId;
     public static AdsManager Instance;
 
