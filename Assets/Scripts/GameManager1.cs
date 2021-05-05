@@ -15,6 +15,5 @@ public class GameManager1 : MonoBehaviour
     public void Play()
     {
         SceneManager.LoadScene(1);
-        AdsManager.Instance.HideAds(0);
     }
 }
