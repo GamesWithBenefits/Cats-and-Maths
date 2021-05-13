@@ -137,6 +137,8 @@ public class GameManager : MonoBehaviour
     public async void Resume()
     {
         Time.timeScale = 1;
+        AdsManager.Instance.HideAds(0);
+        AdsManager.Instance.HideAds(1);
         pausePanel.GetComponent<Animator>().SetBool(-2085996487, true);
         await Task.Delay(500);
         pausePanel.SetActive(false);
