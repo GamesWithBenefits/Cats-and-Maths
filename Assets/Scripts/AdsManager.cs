@@ -146,7 +146,5 @@ public class AdsManager : MonoBehaviour
     {
         ShowAds(2);
         ShowAds(3);
-        await Task.Delay(100);
-        Time.timeScale = 0;
     }
 }

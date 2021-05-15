@@ -131,8 +131,13 @@ public class GameManager : MonoBehaviour
         pausePanel.transform.GetChild(0).GetComponent<Text>().text = _score.ToString();
         pausePanel.transform.GetChild(1).GetComponent<Button>().interactable = false;
         pausePanel.SetActive(true);
+        Time.timeScale = 0;
         AdsManager.Instance.InterstitialAd();
-        await Task.Delay(4000);
+        for (int i = 0; i < 8; i++)
+        {
+            await Task.Delay(500);
+            Time.timeScale = 0;
+        }
         pausePanel.transform.GetChild(1).GetComponent<Button>().interactable = true;
     }
 
