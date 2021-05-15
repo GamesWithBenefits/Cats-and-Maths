@@ -45,11 +45,7 @@ public class AdsManager : MonoBehaviour
         _adUnitId = "unexpected_platform";
 #endif
         _adUnitId = adUnitId;
-        if (SceneManager.GetActiveScene().name == "Main Menu")
-        {
-            ShowAds(1);
-        }
-        else
+        if (SceneManager.GetActiveScene().name != "Main Menu")
         {
             _rewardedAd = new RewardedAd(rewardAdId);
             _rewardedAd.OnUserEarnedReward += VidHandleUserEarnedReward;

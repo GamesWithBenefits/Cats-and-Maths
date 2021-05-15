@@ -10,6 +10,7 @@ public class GameManager1 : MonoBehaviour
     {
         coinNum.text = PlayerPrefs.GetInt("coins").ToString();
         PlayerPrefs.SetInt("Sound", 1);
+        AdsManager.Instance?.ShowAds(1);
     }
 
     public void Play()
