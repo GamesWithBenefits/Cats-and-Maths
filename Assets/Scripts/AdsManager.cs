@@ -138,11 +138,13 @@ public class AdsManager : MonoBehaviour
 
     public void InterstitialAd()
     {
+        GameManager.Instance.Pause();
         _interstitial.LoadAd(new AdRequest.Builder().Build());
     }
 
     private void InterstitialHandleOnAdClosed(object sender, EventArgs args)
     {
-        GameManager.Instance.Pause();
+        ShowAds(2);
+        ShowAds(3);
     }
 }
