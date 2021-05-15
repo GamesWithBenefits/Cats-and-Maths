@@ -128,10 +128,10 @@ public class GameManager : MonoBehaviour
 
     public async void Pause()
     {
-        AdsManager.Instance.ShowAds(2);
-        AdsManager.Instance.ShowAds(3);
         pausePanel.transform.GetChild(0).GetComponent<Text>().text = _score.ToString();
         pausePanel.SetActive(true);
+        AdsManager.Instance.ShowAds(2);
+        AdsManager.Instance.ShowAds(3);
         await Task.Delay(500);
         Time.timeScale = 0;
     }
