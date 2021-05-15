@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using UnityEngine;
 using GoogleMobileAds.Api;
 using UnityEngine.SceneManagement;
@@ -138,13 +139,14 @@ public class AdsManager : MonoBehaviour
 
     public void InterstitialAd()
     {
-        GameManager.Instance.Pause();
-        // _interstitial.LoadAd(new AdRequest.Builder().Build());
+        _interstitial.LoadAd(new AdRequest.Builder().Build());
     }
 
-    private void InterstitialHandleOnAdClosed(object sender, EventArgs args)
+    private async void InterstitialHandleOnAdClosed(object sender, EventArgs args)
     {
         ShowAds(2);
         ShowAds(3);
+        await Task.Delay(100);
+        Time.timeScale = 0;
     }
 }

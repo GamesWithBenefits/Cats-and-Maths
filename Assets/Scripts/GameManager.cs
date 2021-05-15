@@ -131,17 +131,16 @@ public class GameManager : MonoBehaviour
         pausePanel.transform.GetChild(0).GetComponent<Text>().text = _score.ToString();
         pausePanel.transform.GetChild(1).GetComponent<Button>().interactable = false;
         pausePanel.SetActive(true);
-        await Task.Delay(100);
-        Time.timeScale = 0;
-        await Task.Delay(2000);
+        AdsManager.Instance.InterstitialAd();
+        await Task.Delay(4000);
         pausePanel.transform.GetChild(1).GetComponent<Button>().interactable = true;
     }
 
     public async void Resume()
     {
         Time.timeScale = 1;
-        // AdsManager.Instance.HideAds(0);
-        // AdsManager.Instance.HideAds(1);
+        AdsManager.Instance.HideAds(0);
+        AdsManager.Instance.HideAds(1);
         pausePanel.GetComponent<Animator>().SetBool(-2085996487, true);
         await Task.Delay(500);
         pausePanel.SetActive(false);
