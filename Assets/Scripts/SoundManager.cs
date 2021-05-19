@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
@@ -7,12 +8,22 @@ public class SoundManager : MonoBehaviour
     public Image image;
     public Sprite[] soundImage;
     public AudioClip[] audios;
-    private static AudioSource _aSource;
+    private AudioSource _aSource;
+    public static SoundManager Instance;
     
     void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject); return;
+        }
         _aSource = GetComponent<AudioSource>();
         _sound = PlayerPrefs.GetInt("Sound");
+        Instance._aSource.mute = Instance._sound == 1;
     }
 
     public void PlaySound(int index)
@@ -28,5 +39,10 @@ public class SoundManager : MonoBehaviour
         _sound = 1 - _sound;
         image.sprite = soundImage[_sound];
         _aSource.mute = !_aSource.mute;
+    }
+
+    private void OnDestroy()
+    {
+        PlayerPrefs.SetInt("Sound", _sound);
     }
 }
