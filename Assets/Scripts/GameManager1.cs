@@ -10,11 +10,6 @@ public class GameManager1 : MonoBehaviour
     private void Start()
     {
         coinNum.text = PlayerPrefs.GetInt("coins").ToString();
-        AdsManager.Instance.HideAds(0);
-        AdsManager.Instance.HideAds(1);
-        AdsManager.Instance.HideAds(2);
-        AdsManager.Instance.HideAds(3);
-        AdsManager.Instance.ShowAds(1);
         TimeFix();
     }
 
@@ -30,5 +25,10 @@ public class GameManager1 : MonoBehaviour
             await Task.Delay(250);
             Time.timeScale = 1;
         }
+        AdsManager.Instance.HideAds(0);
+        AdsManager.Instance.HideAds(1);
+        AdsManager.Instance.HideAds(2);
+        AdsManager.Instance.HideAds(3);
+        AdsManager.Instance.ShowAds(1);
     }
 }
