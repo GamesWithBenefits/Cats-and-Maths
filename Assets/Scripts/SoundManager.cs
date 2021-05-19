@@ -23,6 +23,7 @@ public class SoundManager : MonoBehaviour
         _aSource = GetComponent<AudioSource>();
         _sound = PlayerPrefs.GetInt("Sound");
         Instance._aSource.mute = Instance._sound == 1;
+        Instance.image.sprite = soundImage[Instance._sound];
     }
 
     public void PlaySound(int index)
