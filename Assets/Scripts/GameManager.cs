@@ -11,8 +11,9 @@ public class GameManager : MonoBehaviour
     public GameObject attemptBox, gameOverPanel, pausePanel, spawner;
     public List<GameObject> enemies;
     public SoundManager soundManager;
-        
-    private bool _gameOver, _paused;
+
+    private bool _gameOver;
+    public bool paused;
     private int _score, _coins;
     private Enemy _temp;
     private EnemySpawn _enemy;
@@ -128,17 +129,22 @@ public class GameManager : MonoBehaviour
 
     public async void Pause()
     {
+        Instance.paused = true;
         pausePanel.transform.GetChild(0).GetComponent<Text>().text = _score.ToString();
         pausePanel.transform.GetChild(1).GetComponent<Button>().interactable = false;
+        pausePanel.transform.GetChild(2).GetComponent<Button>().interactable = false;
+        pausePanel.transform.GetChild(3).GetComponent<Button>().interactable = false;
         pausePanel.SetActive(true);
         Time.timeScale = 0;
         AdsManager.Instance.InterstitialAd();
-        for (int i = 0; i < 8; i++)
+        while (Instance.paused)
         {
             await Task.Delay(500);
             Time.timeScale = 0;
         }
         pausePanel.transform.GetChild(1).GetComponent<Button>().interactable = true;
+        pausePanel.transform.GetChild(2).GetComponent<Button>().interactable = true;
+        pausePanel.transform.GetChild(3).GetComponent<Button>().interactable = true;
     }
 
     public async void Resume()

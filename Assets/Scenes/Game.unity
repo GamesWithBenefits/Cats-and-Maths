@@ -157,6 +157,7 @@ MonoBehaviour:
   spawner: {fileID: 1994758430}
   enemies: []
   soundManager: {fileID: 1232641299}
+  paused: 0
 --- !u!4 &36751859
 Transform:
   m_ObjectHideFlags: 0
