@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Threading.Tasks;
 using UnityEngine;
 using GoogleMobileAds.Api;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class AdsManager : MonoBehaviour
 {
@@ -69,17 +67,17 @@ public class AdsManager : MonoBehaviour
     {
         switch (i)
         {
-            case 0: _banner1.Hide();
-                _banner1.Destroy();
+            case 0: _banner1?.Hide();
+                _banner1?.Destroy();
                 break;
-            case 1: _banner2.Hide();
-                _banner2.Destroy();
+            case 1: _banner2?.Hide();
+                _banner2?.Destroy();
                 break;
-            case 2: _banner3.Hide();
-                _banner3.Destroy();
+            case 2: _banner3?.Hide();
+                _banner3?.Destroy();
                 break;
-            case 3: _banner4.Hide();
-                _banner4.Destroy();
+            case 3: _banner4?.Hide();
+                _banner4?.Destroy();
                 break;
         }
     }

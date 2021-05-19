@@ -21,7 +21,7 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject); return;
         }
         _aSource = GetComponent<AudioSource>();
-        _sound = PlayerPrefs.GetInt("Sound");
+        _sound = PlayerPrefs.GetInt("Sound", 0);
         Instance._aSource.mute = Instance._sound == 1;
         Instance.image.sprite = soundImage[Instance._sound];
     }
