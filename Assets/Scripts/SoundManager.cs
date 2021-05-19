@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
@@ -23,7 +24,10 @@ public class SoundManager : MonoBehaviour
         _aSource = GetComponent<AudioSource>();
         _sound = PlayerPrefs.GetInt("Sound", 0);
         Instance._aSource.mute = Instance._sound == 1;
-        Instance.image.sprite = soundImage[Instance._sound];
+        if (SceneManager.GetActiveScene().name == "Main Menu")
+        {
+            Instance.image.sprite = soundImage[Instance._sound];
+        }
     }
 
     public void PlaySound(int index)
