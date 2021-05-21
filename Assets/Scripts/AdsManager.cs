@@ -46,9 +46,9 @@ public class AdsManager : MonoBehaviour
             _rewardedAd.OnAdLoaded += (o, args) => { _rewardedAd.Show();};
 
             _interstitial = new InterstitialAd(interstitialAdId);
-            _interstitial.OnAdClosed += (o, args) => { ShowAds(1); };
+            _interstitial.OnAdClosed += (o, args) => { GameManager.Instance.paused = false;};
             _interstitial.OnAdLoaded += (o, args) => { _interstitial.Show();};
-            _interstitial.OnAdFailedToLoad += (o, args) => { ShowAds(1); };
+            _interstitial.OnAdFailedToLoad += (o, args) => { GameManager.Instance.paused = false;};
         }
     }
 
