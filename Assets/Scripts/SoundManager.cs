@@ -26,7 +26,7 @@ public class SoundManager : MonoBehaviour
         Instance._aSource.mute = Instance._sound == 1;
         if (SceneManager.GetActiveScene().name == "Main Menu")
         {
-            Instance.image.sprite = soundImage[Instance._sound];
+            image.sprite = soundImage[_sound];
         }
     }
 
@@ -41,7 +41,9 @@ public class SoundManager : MonoBehaviour
     public void Switch()
     {
         _sound = 1 - _sound;
+        Debug.Log(image.color);
         image.sprite = soundImage[_sound];
+        Debug.Log(image.color);
         _aSource.mute = !_aSource.mute;
     }
 
