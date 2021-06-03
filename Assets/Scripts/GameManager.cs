@@ -39,7 +39,6 @@ public class GameManager : MonoBehaviour
         gameOverPanel.transform.GetChild(0).GetChild(1).GetChild(1).GetComponent<Text>().text = _coins.ToString();
         Destroy(spawner);
         AdsManager.Instance.ShowAds(1);
-        AdsManager.Instance.ShowAds(2);
     }
 
     public void IncreaseCoins()
@@ -150,7 +149,7 @@ public class GameManager : MonoBehaviour
     public async void Resume()
     {
         Time.timeScale = 1;
-        AdsManager.Instance.HideAds(0);
+        AdsManager.Instance.HideAds();
         pausePanel.GetComponent<Animator>().SetBool(-2085996487, true);
         await Task.Delay(500);
         pausePanel.SetActive(false);
