@@ -41,9 +41,7 @@ public class SoundManager : MonoBehaviour
     public void Switch()
     {
         _sound = 1 - _sound;
-        Debug.Log(image.color);
         image.sprite = soundImage[_sound];
-        Debug.Log(image.color);
         _aSource.mute = !_aSource.mute;
     }
 
