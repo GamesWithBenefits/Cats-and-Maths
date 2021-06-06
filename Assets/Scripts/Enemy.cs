@@ -4,7 +4,7 @@ using Random = UnityEngine.Random;
 public class Enemy : MonoBehaviour
 {
     public int val, maxVal;
-
+    public GameManager gameManager;
     private int _first, _second;
     private Transform _ques;
     
@@ -21,11 +21,11 @@ public class Enemy : MonoBehaviour
     {
         if (other.CompareTag("Player")){
             Destroy(other.gameObject);
-            GameManager.Instance.GameOver();
+            gameManager.GameOver();
         }
         else if (other.CompareTag("Ground"))
         {
-            GameManager.Instance.IncreaseScore(1);
+            gameManager.IncreaseScore(1);
             Destroy(gameObject);
         }
     }

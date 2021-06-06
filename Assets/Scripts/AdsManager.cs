@@ -9,6 +9,7 @@ public class AdsManager : MonoBehaviour
     private InterstitialAd _interstitial;
     private string[] _adUnitId;
     public static AdsManager Instance;
+    public GameManager gameManager;
     private void Awake()
     {
         if (Instance == null)
@@ -40,13 +41,13 @@ public class AdsManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name != "Main Menu")
         {
             _rewardedAd = new RewardedAd(rewardAdId);
-            _rewardedAd.OnUserEarnedReward += (o, args) => {GameManager.Instance.IncreaseCoins();};
+            _rewardedAd.OnUserEarnedReward += (o, args) => {gameManager.IncreaseCoins();};
             _rewardedAd.OnAdLoaded += (o, args) => { _rewardedAd.Show();};
 
             _interstitial = new InterstitialAd(interstitialAdId);
-            _interstitial.OnAdClosed += (o, args) => { GameManager.Instance.paused = false;};
+            _interstitial.OnAdClosed += (o, args) => { gameManager.paused = false;};
             _interstitial.OnAdLoaded += (o, args) => { _interstitial.Show();};
-            _interstitial.OnAdFailedToLoad += (o, args) => { GameManager.Instance.paused = false;};
+            _interstitial.OnAdFailedToLoad += (o, args) => { gameManager.paused = false;};
         }
     }
 

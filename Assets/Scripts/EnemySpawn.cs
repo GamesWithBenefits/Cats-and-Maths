@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour
 {
+    public GameManager gameManager;
     public GameObject enemy;
     public int maxVal = 10;
     public float xLim, spawnRate;
@@ -24,7 +25,7 @@ public class EnemySpawn : MonoBehaviour
     {
         while (true)
         {
-            GameManager.Instance.enemies.Add(SpawnEnemy());
+            gameManager.enemies.Add(SpawnEnemy());
             spawnRate -= 0.1f;
             yield return new WaitForSeconds(spawnRate);
         }

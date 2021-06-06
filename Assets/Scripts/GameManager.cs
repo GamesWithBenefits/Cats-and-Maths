@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
+    public static SaveSystem SaveSystem;
     public Text scoreText;
     public GameObject attemptBox, gameOverPanel, pausePanel, spawner;
     public List<GameObject> enemies;
@@ -24,10 +24,6 @@ public class GameManager : MonoBehaviour
         _enemy = spawner.GetComponent<EnemySpawn>();
         _attemptText = attemptBox.transform.GetComponentInChildren<Text>();
         _attemptAnim = attemptBox.GetComponent<Animator>();
-        if (Instance == null)
-        {
-            Instance = this;
-        }
     }
     
     public void GameOver()
@@ -128,7 +124,7 @@ public class GameManager : MonoBehaviour
 
     public async void Pause()
     {
-        Instance.paused = true;
+        paused = true;
         pausePanel.transform.GetChild(0).GetComponent<Text>().text = _score.ToString();
         pausePanel.transform.GetChild(1).GetComponent<Button>().interactable = false;
         pausePanel.transform.GetChild(2).GetComponent<Button>().interactable = false;
@@ -136,7 +132,7 @@ public class GameManager : MonoBehaviour
         pausePanel.SetActive(true);
         Time.timeScale = 0;
         AdsManager.Instance.InterstitialAd();
-        while (Instance.paused)
+        while (paused)
         {
             await Task.Delay(500);
             Time.timeScale = 0;
@@ -153,5 +149,21 @@ public class GameManager : MonoBehaviour
         pausePanel.GetComponent<Animator>().SetBool(-2085996487, true);
         await Task.Delay(500);
         pausePanel.SetActive(false);
+    }
+
+    private void OnApplicationQuit()
+    {
+        OnClose();
+    }
+
+    private void OnClose()
+    {
+        if (SaveSystem.score < _score)
+        {
+            SaveSystem.score = _score;
+        }
+
+        SaveSystem.coins += _coins;
+        SaveSystem.Save();
     }
 }
