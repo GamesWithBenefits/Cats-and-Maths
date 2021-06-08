@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using GoogleMobileAds.Api;
+using JetBrains.Annotations;
 using UnityEngine.SceneManagement;
 
 public class AdsManager : MonoBehaviour
@@ -9,7 +10,7 @@ public class AdsManager : MonoBehaviour
     private InterstitialAd _interstitial;
     private string[] _adUnitId;
     public static AdsManager Instance;
-    public GameManager gameManager;
+    [CanBeNull]public GameManager gameManager;
     private void Awake()
     {
         if (Instance == null)

@@ -28,19 +28,27 @@ public class GameManager1 : MonoBehaviour
 
     public void OpenShop()
     {
-        petsPanel.SetActive(true);
-        for (int i = 0; i < items.childCount; i++)
+        Debug.Log(petsPanel.activeSelf);
+        if (!petsPanel.activeSelf)
         {
-            if (SaveSystem.skins[i].bought)
+            petsPanel.SetActive(true);
+            for (int i = 0; i < items.childCount; i++)
             {
-                items.GetChild(i).GetChild(2).gameObject.SetActive(true);
-                items.GetChild(i).GetChild(3).gameObject.SetActive(false);
+                if (SaveSystem.skins[i].bought)
+                {
+                    items.GetChild(i).GetChild(2).gameObject.SetActive(true);
+                    items.GetChild(i).GetChild(3).gameObject.SetActive(false);
+                }
+                else
+                {
+                    items.GetChild(i).GetChild(2).gameObject.SetActive(false);
+                    items.GetChild(i).GetChild(3).gameObject.SetActive(true);
+                }
             }
-            else
-            {
-                items.GetChild(i).GetChild(2).gameObject.SetActive(false);
-                items.GetChild(i).GetChild(3).gameObject.SetActive(true);
-            }
+        }
+        else
+        {
+            petsPanel.SetActive(false);
         }
     }
 
