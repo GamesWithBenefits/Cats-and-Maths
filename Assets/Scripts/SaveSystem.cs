@@ -5,7 +5,7 @@ using UnityEngine;
 public class SaveSystem
 {
     public int score, coins;
-    public bool[] skins = new Boolean[1];
+    public skinData[] skins = new skinData[1];
 
     public SaveSystem()
     {
