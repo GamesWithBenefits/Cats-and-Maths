@@ -2,38 +2,42 @@
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
-public class SaveSystem
+public static class SaveSystem
 {
-    public int score, coins;
-    public skinData[] skins = new skinData[1];
+    public static int Score, Coins;
+    public static skinData[] Skins = new []{new skinData()};
 
-    public SaveSystem()
+    static SaveSystem()
     {
         Load();
     }
     
-    public void Save()
+    public static void Save()
     {
         BinaryFormatter formatter = new BinaryFormatter();
         string savePath = Application.persistentDataPath + "/player.fun";
         Stream stream = new FileStream(savePath, FileMode.Create);
         
-        PlayerData data = new PlayerData {skins = skins, highScore = score, coins = coins};
+        PlayerData data = new PlayerData {skins = Skins, highScore = Score, coins = Coins};
 
         formatter.Serialize(stream, data);
         stream.Close();
     }
 
-    private void Load()
+    static void Load()
     {
-        if (!File.Exists(Application.dataPath + "/Save data/Score.secure")) return;
+        if (!File.Exists(Application.dataPath + "/Save data/Score.secure"))
+        {
+            Debug.Log("No file");
+            return;
+        }
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Open(Application.dataPath + "/Save data/Score.secure", FileMode.Open);
         PlayerData data = (PlayerData)bf.Deserialize(file);
         file.Close();
            
-        score = data.highScore;
-        coins = data.coins;
-        skins = data.skins;
+        Score = data.highScore;
+        Coins = data.coins;
+        Skins = data.skins;
     }
 }

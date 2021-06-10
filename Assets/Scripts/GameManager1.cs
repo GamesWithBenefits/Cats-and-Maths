@@ -4,20 +4,14 @@ using UnityEngine.UI;
 
 public class GameManager1 : MonoBehaviour
 {
-    public static SaveSystem SaveSystem;
     public Text coinNum;
     public GameObject petsPanel;
     public Transform items;
 
     private void Start()
     {
-        if (SaveSystem == null)
-        {
-            SaveSystem = new SaveSystem();
-        }
-
         items = petsPanel.transform.GetChild(0).GetChild(0);
-        coinNum.text = SaveSystem.coins.ToString();
+        coinNum.text = SaveSystem.Coins.ToString();
         AdsManager.Instance.ShowAds(0);
     }
 
@@ -28,13 +22,13 @@ public class GameManager1 : MonoBehaviour
 
     public void OpenShop()
     {
-        Debug.Log(petsPanel.activeSelf);
         if (!petsPanel.activeSelf)
         {
             petsPanel.SetActive(true);
-            for (int i = 0; i < items.childCount; i++)
+            for (int i = 0; i < items.childCount-1; i++)
             {
-                if (SaveSystem.skins[i].bought)
+                Debug.Log(SaveSystem.Skins[i].bought);
+                if (SaveSystem.Skins[i].bought)
                 {
                     items.GetChild(i).GetChild(2).gameObject.SetActive(true);
                     items.GetChild(i).GetChild(3).gameObject.SetActive(false);
@@ -54,12 +48,17 @@ public class GameManager1 : MonoBehaviour
 
     public void Buy(int skinID)
     {
-        if (SaveSystem.skins[skinID].bought) return; 
-        SaveSystem.coins -= SaveSystem.skins[skinID].price;
-        coinNum.text = SaveSystem.coins.ToString();
-        SaveSystem.skins[skinID].bought = true;
+        if (SaveSystem.Skins[skinID].bought) return; 
+        SaveSystem.Coins -= SaveSystem.Skins[skinID].price;
+        coinNum.text = SaveSystem.Coins.ToString();
+        SaveSystem.Skins[skinID].bought = true;
         SaveSystem.Save();
         items.GetChild(skinID).GetChild(2).gameObject.SetActive(true);
         items.GetChild(skinID).GetChild(3).gameObject.SetActive(false);
+    }
+
+    public void Select(int skinID)
+    {
+        items.GetChild(skinID).GetChild(2).gameObject.GetComponent<Button>().interactable = false;
     }
 }

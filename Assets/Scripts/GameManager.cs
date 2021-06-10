@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public static SaveSystem SaveSystem;
     public Text scoreText;
     public GameObject attemptBox, gameOverPanel, pausePanel, spawner;
     public List<GameObject> enemies;
@@ -158,12 +157,12 @@ public class GameManager : MonoBehaviour
 
     private void OnClose()
     {
-        if (SaveSystem.score < _score)
+        if (SaveSystem.Score < _score)
         {
-            SaveSystem.score = _score;
+            SaveSystem.Score = _score;
         }
 
-        SaveSystem.coins += _coins;
+        SaveSystem.Coins += _coins;
         SaveSystem.Save();
     }
 }
