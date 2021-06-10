@@ -7,7 +7,8 @@ public class GameManager1 : MonoBehaviour
     public Text coinNum;
     public GameObject petsPanel;
     public Transform items;
-
+    public GameObject player;
+    
     private void Start()
     {
         items = petsPanel.transform.GetChild(0).GetChild(0);
@@ -60,5 +61,6 @@ public class GameManager1 : MonoBehaviour
     public void Select(int skinID)
     {
         items.GetChild(skinID).GetChild(2).gameObject.GetComponent<Button>().interactable = false;
+        player.GetComponent<SpriteRenderer>().sprite = items.GetChild(skinID).GetChild(0).GetComponent<Image>().sprite;
     }
 }

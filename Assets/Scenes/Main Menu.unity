@@ -2492,6 +2492,7 @@ MonoBehaviour:
   coinNum: {fileID: 1226603373}
   petsPanel: {fileID: 1420833386}
   items: {fileID: 717715541}
+  player: {fileID: 870117243587354374, guid: 665d3acb130a5e741b4fe05eb265ed28, type: 3}
 --- !u!1 &1850594634
 GameObject:
   m_ObjectHideFlags: 0
@@ -2879,7 +2880,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1906422422}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1836015777}
+        m_MethodName: Select
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1906422422
 MonoBehaviour:
   m_ObjectHideFlags: 0
