@@ -28,7 +28,6 @@ public class GameManager1 : MonoBehaviour
             petsPanel.SetActive(true);
             for (int i = 0; i < items.childCount-1; i++)
             {
-                Debug.Log(SaveSystem.Skins[i].bought);
                 if (SaveSystem.Skins[i].bought)
                 {
                     items.GetChild(i).GetChild(2).gameObject.SetActive(true);
@@ -38,6 +37,7 @@ public class GameManager1 : MonoBehaviour
                 {
                     items.GetChild(i).GetChild(2).gameObject.SetActive(false);
                     items.GetChild(i).GetChild(3).gameObject.SetActive(true);
+                    items.GetChild(i).GetChild(3).GetChild(0).gameObject.GetComponent<Text>().text = SaveSystem.Skins[i].price.ToString();
                 }
             }
         }
@@ -49,13 +49,21 @@ public class GameManager1 : MonoBehaviour
 
     public void Buy(int skinID)
     {
-        if (SaveSystem.Skins[skinID].bought) return; 
-        SaveSystem.Coins -= SaveSystem.Skins[skinID].price;
-        coinNum.text = SaveSystem.Coins.ToString();
-        SaveSystem.Skins[skinID].bought = true;
-        SaveSystem.Save();
-        items.GetChild(skinID).GetChild(2).gameObject.SetActive(true);
-        items.GetChild(skinID).GetChild(3).gameObject.SetActive(false);
+        if (SaveSystem.Skins[skinID].bought) return;
+        if (SaveSystem.Coins < SaveSystem.Skins[skinID].price)
+        {
+            items.GetChild(skinID).GetChild(3).gameObject.GetComponent<Image>().color = Color.red;
+            items.GetChild(skinID).GetChild(3).GetChild(0).gameObject.GetComponent<Text>().color = Color.white;
+        }
+        else
+        {
+            SaveSystem.Coins -= SaveSystem.Skins[skinID].price;
+            coinNum.text = SaveSystem.Coins.ToString();
+            SaveSystem.Skins[skinID].bought = true;
+            SaveSystem.Save();
+            items.GetChild(skinID).GetChild(2).gameObject.SetActive(true);
+            items.GetChild(skinID).GetChild(3).gameObject.SetActive(false);
+        }
     }
 
     public void Select(int skinID)
