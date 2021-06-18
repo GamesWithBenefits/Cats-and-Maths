@@ -86,6 +86,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   val: 0
   maxVal: 0
+  gameManager: {fileID: 0}
 --- !u!1 &4168608035696502742
 GameObject:
   m_ObjectHideFlags: 0
