@@ -9,21 +9,12 @@ public class SoundManager : MonoBehaviour
     public Sprite[] soundImage;
     public AudioClip[] audios;
     private AudioSource _aSource;
-    public static SoundManager Instance;
     
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject); return;
-        }
         _aSource = GetComponent<AudioSource>();
         _sound = PlayerPrefs.GetInt("Sound", 0);
-        Instance._aSource.mute = Instance._sound == 1;
+        _aSource.mute = _sound == 1;
         if (SceneManager.GetActiveScene().name == "Main Menu")
         {
             image.sprite = soundImage[_sound];
@@ -32,7 +23,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlaySound(int index)
     {
-        if (_sound == 1)
+        if (_sound == 0)
         {
             _aSource.PlayOneShot(audios[index]);
         }

@@ -16,7 +16,7 @@ public class EnemySpawn : MonoBehaviour
     {
         GameObject temp = Instantiate(enemy,
             new Vector2(Random.Range(-xLim, xLim), transform.position.y), Quaternion.identity);
-        
+        temp.GetComponent<Rigidbody2D>().gravityScale = 0.025f;
         temp.GetComponent<Enemy>().maxVal = maxVal;
         return temp;
     }
